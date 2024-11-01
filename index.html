@@ -69,14 +69,7 @@
       width: 100%;
       max-width: 340px;
       text-align: center;
-      transition: height 0.3s ease, padding 0.3s ease;
-      overflow: hidden;
       cursor: pointer;
-    }
-    .credits:hover {
-      background-color: #bbb;
-      height: auto;
-      padding: 15px;
     }
     .credits-title {
       font-weight: bold;
@@ -87,9 +80,32 @@
       display: none;
       margin-top: 10px;
     }
-    .credits:hover .credits-list {
-      display: block;
+    
+    .show-credits-button {
+      background-color: transparent;
+      color: #5c7d9f; /* Azul elegante */
+      padding: 12px 24px;
+      border: 2px solid #000000; /* Borde azul */
+      border-radius: 50px; /* Bordes redondeados */
+      font-size: 1em;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
     }
+
+    .show-credits-button:hover {
+      background-color: #000000; /* Azul de fondo al pasar el mouse */
+      color: white; /* Texto blanco al pasar el mouse */
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); /* Sombra suave */
+    }
+
+    .show-credits-button:active {
+      transform: scale(0.95); /* Efecto de clic */
+    }
+
   </style>
 </head>
 <body>
@@ -126,13 +142,14 @@
 <!-- Interactive Credits Section -->
 <div class="credits">
   <div class="credits-title">Mobile Calculator Project Team</div>
-  <div class="credits-list">
+  <button class="show-credits-button" onclick="toggleCredits()">Show Credits</button>
+  <div class="credits-list" id="creditsList">
+    <p>Daniel Zúñiga</p>
     <p>Joshua Saborío</p>
     <p>Fabián García</p>
     <p>Frank Raffensperger</p>
     <p>Ían Grant</p>
     <p>Ricardo Charpentier</p>
-    <p>Daniel Zúñiga</p>
   </div>
 </div>
 
@@ -146,6 +163,7 @@
   }
 
   function appendOperator(operator) {
+    // Evita operadores duplicados
     if (currentInput && "+-*/".includes(currentInput.slice(-1))) return;
     currentInput += operator;
     screen.value = currentInput;
@@ -158,14 +176,21 @@
 
   function calculate() {
     try {
-      currentInput = eval(currentInput).toString();
+      // Calcula el resultado y lo formatea con comas
+      currentInput = eval(currentInput).toLocaleString('en-US');
       screen.value = currentInput;
     } catch {
       screen.value = 'Error';
       currentInput = '';
     }
   }
+
+  function toggleCredits() {
+    const creditsList = document.getElementById('creditsList');
+    creditsList.style.display = creditsList.style.display === 'none' || creditsList.style.display === '' ? 'block' : 'none';
+  }
 </script>
+
 
 </body>
 </html>
